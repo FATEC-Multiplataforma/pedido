@@ -60,6 +60,7 @@ public class RabbitMQConfig {
     @Bean
     Queue deadLetter() {
         return QueueBuilder.durable(deadLetter)
+                .ttl(20000)
                 .deadLetterExchange(exchange)
                 .deadLetterRoutingKey(routingKey)
                 .build();
