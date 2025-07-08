@@ -7,7 +7,6 @@ import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -23,13 +22,10 @@ public class FreteConsumer {
 
     private final String parkingLot;
     private final RabbitTemplate rabbitTemplate;
-    private final Jackson2JsonMessageConverter converter;
 
     public FreteConsumer(
             RabbitTemplate rabbitTemplate,
-            Jackson2JsonMessageConverter converter,
             @Value("${spring.rabbitmq.request.parking-lot.producer}") String parkingLot) {
-        this.converter = converter;
         this.parkingLot = parkingLot;
         this.rabbitTemplate = rabbitTemplate;
     }
