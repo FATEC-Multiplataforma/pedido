@@ -14,24 +14,24 @@ public class Consumer {
     private static final Logger LOG = LoggerFactory.getLogger(Consumer.class);
 
     @RabbitListener(
-            queues = "fila.pedido.criado",
+            queues = "fila.principal",
             containerFactory = "rabbitFactory")
     public void listener1(@Payload String pedido, @Headers Map<String, Object> headers) {
         LOG.info("Mensagem recebida 1: {}", pedido);
     }
 
     @RabbitListener(
-            queues = "fila.frete.pedidos",
+            queues = "fila.principal",
             containerFactory = "rabbitFactory")
     public void listener2(@Payload String pedido, @Headers Map<String, Object> headers) {
-        LOG.info("Mensagem recebida 1: {}", pedido);
+        LOG.info("Mensagem recebida 2: {}", pedido);
     }
 
     @RabbitListener(
-            queues = "fila.frete.todos",
+            queues = "fila.principal",
             containerFactory = "rabbitFactory")
     public void listener3(@Payload String pedido, @Headers Map<String, Object> headers) {
-        LOG.info("Mensagem recebida 2: {}", pedido);
+        LOG.info("Mensagem recebida 3: {}", pedido);
     }
 
 }

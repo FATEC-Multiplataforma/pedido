@@ -23,7 +23,7 @@ public class Producer {
 
         Message message = new Message(mensagem.getBytes(StandardCharsets.UTF_8), props);
 
-        rabbitTemplate.send("frete.topic", "fila.pedido.criado", message);
+        rabbitTemplate.send("direct.exchange", "fila.principal", message);
     }
 
 }
