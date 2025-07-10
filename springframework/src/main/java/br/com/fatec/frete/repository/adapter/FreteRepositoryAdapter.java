@@ -13,7 +13,7 @@ public class FreteRepositoryAdapter {
         Endereco endereco = frete.endereco();
         return new FreteOrm(
                 frete.id(),
-                frete.client(),
+                frete.clientId(),
                 frete.valor(),
                 new EnderecoOrm(
                         endereco.uf(),

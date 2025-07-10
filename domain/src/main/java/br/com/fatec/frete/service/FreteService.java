@@ -1,6 +1,7 @@
 package br.com.fatec.frete.service;
 
 import br.com.fatec.frete.entity.Frete;
+import br.com.fatec.frete.entity.enumerable.Status;
 import br.com.fatec.frete.exception.NotFoundException;
 import br.com.fatec.frete.repository.FreteRepository;
 
@@ -13,12 +14,12 @@ public class FreteService {
         this.repository = repository;
     }
 
-    public Frete getFrete(Frete frete) {
+    public Frete saveStatus(Frete frete, Status status) {
         return repository.save(new Frete(
                 frete.id(),
-                frete.client(),
+                frete.clientId(),
                 getValor(frete.endereco().uf()),
-                frete.status(),
+                status,
                 frete.endereco()));
     }
 

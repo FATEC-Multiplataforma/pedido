@@ -47,7 +47,7 @@ public class FreteRepositoryImpl implements FreteRepository {
         Endereco endereco = frete.endereco();
         FreteOrm newFrete = new FreteOrm(
                 id,
-                frete.client(),
+                frete.clientId(),
                 frete.valor(),
                 new EnderecoOrm(
                         endereco.uf(),

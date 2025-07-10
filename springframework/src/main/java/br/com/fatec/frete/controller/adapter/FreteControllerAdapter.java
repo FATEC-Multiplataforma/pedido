@@ -17,7 +17,7 @@ public class FreteControllerAdapter {
     public static FreteResponse cast(Frete frete) {
         return new FreteResponse(
                 frete.id(),
-                frete.client(),
+                frete.clientId(),
                 frete.valor(),
                 frete.status(),
                 frete.endereco().uf());

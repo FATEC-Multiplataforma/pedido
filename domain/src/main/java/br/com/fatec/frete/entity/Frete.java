@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public record Frete(
         String id,
-        String client,
+        String clientId,
         BigDecimal valor,
         Status status,
         Endereco endereco

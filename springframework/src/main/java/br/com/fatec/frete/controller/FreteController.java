@@ -5,6 +5,7 @@ import br.com.fatec.frete.controller.dto.request.FreteRequest;
 import br.com.fatec.frete.controller.dto.response.FreteResponse;
 import br.com.fatec.frete.controller.dto.response.FreteValorResponse;
 import br.com.fatec.frete.entity.Frete;
+import br.com.fatec.frete.entity.enumerable.Status;
 import br.com.fatec.frete.repository.FreteRepository;
 import br.com.fatec.frete.service.FreteService;
 import jakarta.validation.Valid;
@@ -26,7 +27,7 @@ public class FreteController {
     @PostMapping("/frete")
     public FreteResponse save(@Valid @RequestBody FreteRequest request) {
         Frete frete = FreteControllerAdapter.cast(request);
-        return FreteControllerAdapter.cast(service.getFrete(frete));
+        return FreteControllerAdapter.cast(service.saveStatus(frete, Status.PROCESSANDO));
     }
 
     @ResponseStatus(HttpStatus.OK)
