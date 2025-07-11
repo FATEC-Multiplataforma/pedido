@@ -27,14 +27,11 @@ public class FreteConsumer {
     private final String parkingLot;
     private final FreteService freteService;
     private final RabbitTemplate rabbitTemplate;
-    private final Jackson2JsonMessageConverter converter;
 
     public FreteConsumer(
             FreteService freteService,
             RabbitTemplate rabbitTemplate,
-            Jackson2JsonMessageConverter converter,
             @Value("${spring.rabbitmq.request.parking-lot.producer}") String parkingLot) {
-        this.converter = converter;
         this.parkingLot = parkingLot;
         this.freteService = freteService;
         this.rabbitTemplate = rabbitTemplate;
