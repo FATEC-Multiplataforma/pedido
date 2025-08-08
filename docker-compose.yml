@@ -1,13 +1,45 @@
 version: '3.8'
 
 services:
-  mongodb:
+  mongo:
     image: mongo:latest
-    hostname: mongodb
-    container_name: mongodb
+    hostname: mongo
+    container_name: mongo
     restart: unless-stopped
+    environment:
+      - "TZ=America/Sao_Paulo"
     ports:
       - "27017:27017"
+  opensearch:
+    image: opensearchproject/opensearch:2.4.0
+    hostname: opensearch
+    container_name: opensearch
+    environment:
+      - discovery.type=single-node
+      - plugins.security.disabled=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    restart: on-failure
+  graylog:
+    image: graylog/graylog:5.1.5
+    hostname: graylog
+    container_name: graylog
+    depends_on:
+      - mongo
+      - opensearch
+    environment:
+      GRAYLOG_PASSWORD_SECRET: "f62c92ac283e4f1f969ad5e71d4c7b2e11e9bdbf5e193ae7bb4e9b4e1e956e437c98a43cd624c5ea8a2c97b9463f96e8"
+      GRAYLOG_ROOT_PASSWORD_SHA2: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+      GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
+      GRAYLOG_HTTP_EXTERNAL_URI: "http://localhost:9000/"
+      GRAYLOG_MONGODB_URI: "mongodb://mongo:27017/graylog"
+      GRAYLOG_ELASTICSEARCH_HOSTS: "http://opensearch:9200"
+    ports:
+      - "9000:9000"
+      - "12201:12201/udp"
+    restart: on-failure
   redis:
     image: redis:latest
     hostname: redis
@@ -15,6 +47,11 @@ services:
     restart: unless-stopped
     ports:
       - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
   rabbitmq:
     image: rabbitmq:3-management
     hostname: rabbitmq
@@ -25,3 +62,29 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASSWORD: guest
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+#  pedido:
+#    image: fretec/pedido:latest
+#    hostname: pedido
+#    container_name: pedido
+#    ports:
+#      - "8083:8083"
+#    environment:
+#      REDIS_HOST: redis
+#      REDIS_PORT: 6379
+#      RABBITMQ_HOST: rabbitmq
+#      RABBITMQ_PORT: 5672
+#      RABBITMQ_USERNAME: guest
+#      RABBITMQ_PASSWORD: guest
+#      MONGODB_URI: mongodb://mongodb:27017/fatec
+#    depends_on:
+#      rabbitmq:
+#        condition: service_healthy
+#      mongodb:
+#        condition: service_started
+#      redis:
+#        condition: service_started

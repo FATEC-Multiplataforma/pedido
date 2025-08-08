@@ -1,5 +1,7 @@
 package br.com.fatec.frete;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -8,11 +10,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.time.LocalDateTime;
+
 @EnableRabbit
 @EnableCaching
 @EnableScheduling
 @SpringBootApplication
 public class FreteApplication implements CommandLineRunner {
+    private static final Logger LOG = LoggerFactory.getLogger(FreteApplication.class);
+
     @Value("${spring.redis.host}")
     String host;
     @Value("${spring.redis.port}")
@@ -24,6 +30,10 @@ public class FreteApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("Connecting to Redis at Host: " + host + " Port:" + port);
+        LOG.info("APP iniciou: INFO");
+        LOG.warn("APP iniciou: WARN");
+        LOG.error("APP Iniciou: ERROR");
+
+        System.out.println("Connecting to Redis at Host:" + host + " Port:" + port + " Date: " + LocalDateTime.now());
     }
 }

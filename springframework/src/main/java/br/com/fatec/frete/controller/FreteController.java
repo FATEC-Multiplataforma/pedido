@@ -5,11 +5,13 @@ import br.com.fatec.frete.controller.dto.response.FreteResponse;
 import br.com.fatec.frete.controller.dto.response.FreteValorResponse;
 import br.com.fatec.frete.repository.FreteRepository;
 import br.com.fatec.frete.service.FreteService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/fretec/v1")
+@SecurityRequirement(name = "bearerAuth")
 public class FreteController {
     private final FreteService service;
     private final FreteRepository repository;

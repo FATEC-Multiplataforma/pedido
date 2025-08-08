@@ -16,6 +16,7 @@ import java.time.Duration;
 
 @Configuration
 public class CacheConfig {
+
     @Bean
     public LettuceConnectionFactory redisConnectionFactory(
             @Value("${spring.redis.host}") String host,
